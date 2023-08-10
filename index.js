@@ -11,6 +11,8 @@ io.on("connection", (socket) => {
   socket.on("meeting:join", (data) => {
     emailToSocketId.set(data.email, socket.id);
     socketIdToEmail.set(socket.id, data.email);
+    io.to(data.meetingId).emit("user-joined", data);
+    socket.join(data.meetingId);
     io.to(socket.id).emit("meeting:join", data);
   });
 });
